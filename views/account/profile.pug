@@ -45,6 +45,16 @@ block content
           | Update Profile
 
   .pb-2.mt-2.mb-4.border-bottom
+    h3 Upload Resume
+
+  form(action='/api/upload' role='form', enctype='multipart/form-data', method='POST')
+    .form-group.row
+      label.col-form-label.font-weight-bold File Input
+      .col-md-6
+        input(type='file', name='myFile')
+    button.btn.btn-primary(type='submit') Submit
+  
+  .pb-2.mt-2.mb-4.border-bottom
     h3 Change Password
 
   form(action='/account/password', method='POST')

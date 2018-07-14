@@ -13,6 +13,7 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const paypal = require('paypal-rest-sdk');
 const lob = require('lob')(process.env.LOB_KEY);
 const ig = require('instagram-node').instagram();
+const axios = require('axios');
 const { Venues, Users } = require('node-foursquare')({
   secrets: {
     clientId: process.env.FOURSQUARE_ID,
@@ -583,7 +584,17 @@ exports.getFileUpload = (req, res) => {
 
 exports.postFileUpload = (req, res) => {
   req.flash('success', { msg: 'File was uploaded successfully.' });
-  res.redirect('/api/upload');
+  // upload file to s3 and update metadata to backend
+  axios({
+    method: 'get',
+    url: 'http://localhost:3000/users/1',
+    responseType: 'application/json'
+  })
+    .then((response) => {
+      console.info(response.data);
+      res.redirect('/api/upload');
+    });
+  // res.redirect('/api/upload');
 };
 
 /**

@@ -1,22 +1,25 @@
 {
-  "name": "hackathon-starter",
-  "version": "5.1.0",
-  "description": "A boilerplate for Node.js web applications",
+  "name": "careernests",
+  "version": "0.0.1",
+  "description": "careernests frontend website",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/fcheng00/careernests.git"
   },
-  "author": "Sahat Yalkabov",
+  "author": "Feng Cheng",
   "license": "MIT",
   "scripts": {
     "postinstall": "cp node_modules/popper.js/dist/popper.min.* public/js/lib && cp node_modules/bootstrap/dist/js/bootstrap.min.* public/js/lib && cp node_modules/jquery/dist/jquery.min.* public/js/lib && npm rebuild node-sass",
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "nyc mocha --timeout=3000 --exit",
-    "lint": "eslint **/*.js"
+    "lint": "eslint **/*.js",
+    "build-css": "node-sass --include-path public public/css/main.scss public/css/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css \""
   },
   "dependencies": {
     "@ladjs/bootstrap-social": "^7.0.2",
     "@octokit/rest": "^15.9.2",
+    "axios": "^0.18.0",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.1",
@@ -69,9 +72,12 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.10.0",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "sinon": "^4.5.0",

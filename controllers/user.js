@@ -44,6 +44,7 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Success! You are logged in.' });
+      console.info(req.body.email);
       res.redirect(req.session.returnTo || '/');
     });
   })(req, res, next);
@@ -139,6 +140,11 @@ exports.postUpdateProfile = (req, res, next) => {
     req.flash('errors', errors);
     return res.redirect('/account');
   }
+
+  /**
+   * update user profile to backend service
+   */
+
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
