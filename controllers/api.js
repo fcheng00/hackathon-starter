@@ -26,6 +26,8 @@ const { Venues, Users } = require('node-foursquare')({
   }
 });
 
+const resumeStoreS3 = require('../lib/resumeStoreS3');
+
 /**
  * GET /api
  * List of API examples.
@@ -585,6 +587,12 @@ exports.getFileUpload = (req, res) => {
 exports.postFileUpload = (req, res) => {
   req.flash('success', { msg: 'File was uploaded successfully.' });
   // upload file to s3 and update metadata to backend
+  const filename = req.file.path;
+  resumeStoreS3.save(filename, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+  });
   axios({
     method: 'get',
     url: 'http://localhost:3000/users/1',
@@ -594,7 +602,6 @@ exports.postFileUpload = (req, res) => {
       console.info(response.data);
       res.redirect('/api/upload');
     });
-  // res.redirect('/api/upload');
 };
 
 /**
