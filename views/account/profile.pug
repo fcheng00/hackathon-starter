@@ -6,53 +6,97 @@ block content
 
   form(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') Email
-      .col-md-7
-        input.form-control(type='email', name='email', id='email', value=user.email)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='name') Name
-      .col-md-7
-        input.form-control(type='text', name='name', id='name', value=user.profile.name)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right Gender
-      .col-sm-6
-        label.radio.col-sm-3
-          input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
-          span Male
-        label.radio.col-sm-3
-          input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
-          span Female
-        label.radio.col-sm-3
-          input(type='radio', checked=user.profile.gender=='other', name='gender', value='other', data-toggle='radio')
-          span Other
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='location') Location
-      .col-md-7
-        input.form-control(type='text', name='location', id='location', value=user.profile.location)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right(for='website') Website
-      .col-md-7
-        input.form-control(type='text', name='website', id='website', value=user.profile.website)
-    .form-group.row
-      label.col-md-3.col-form-label.font-weight-bold.text-right Gravatar
-      .col-sm-4
-        img(src=user.gravatar(), class='profile', width='100', height='100')
-    .form-group
-      .offset-sm-3.col-md-7.pl-2
-        button.btn.btn.btn-primary(type='submit')
-          i.fas.fa-pencil-alt.fa-sm
-          | Update Profile
+    input(type='hidden', name='usertype', value = user.usertype)
+    if user.usertype === 'jobSeeker'
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') Email
+        .col-md-7
+          input.form-control(type='email', name='email', id='email', value=user.email)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='name') Name
+        .col-md-7
+          input.form-control(type='text', name='name', id='name', value=user.profile.name)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right Gender
+        .col-sm-6
+          label.radio.col-sm-3
+            input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
+            span Male
+          label.radio.col-sm-3
+            input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
+            span Female
+          label.radio.col-sm-3
+            input(type='radio', checked=user.profile.gender=='other', name='gender', value='other', data-toggle='radio')
+            span Other
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='location') Location
+        .col-md-7
+          input.form-control(type='text', name='location', id='location', value=user.profile.location)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='website') Website
+        .col-md-7
+          input.form-control(type='text', name='website', id='website', value=user.profile.website)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right Gravatar
+        .col-sm-4
+          img(src=user.gravatar(), class='profile', width='100', height='100')
+      .form-group
+        .offset-sm-3.col-md-7.pl-2
+          button.btn.btn.btn-primary(type='submit')
+            i.fas.fa-pencil-alt.fa-sm
+            | Update Profile
 
-  .pb-2.mt-2.mb-4.border-bottom
-    h3 Upload Resume
+      .pb-2.mt-2.mb-4.border-bottom
+        h3 Upload Resume
+      form(action='/api/upload' role='form', enctype='multipart/form-data', method='POST')
+        .form-group.row
+          label.col-form-label.font-weight-bold File Input
+          .col-md-6
+            input(type='file', name='myFile')
+        button.btn.btn-primary(type='submit') Submit
+    else if user.usertype === 'employer'
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') Email
+        .col-md-7
+          input.form-control(type='email', name='email', id='email', value=user.email)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='name') Name
+        .col-md-7
+          input.form-control(type='text', name='name', id='name', value=user.profile.name)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='company') Company
+        .col-md-7
+          input.form-control(type='text', name='company', id='company', value=user.profile.company)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='address') Address
+        .col-md-7
+          input.form-control(type='text', name='address', id='address', value=user.profile.address)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='contact') Contact
+        .col-md-7
+          input.form-control(type='tel', name='contact', id='contact', placeholder='123-456-7890' pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' value=user.profile.contact)
+      .form-group
+        .offset-sm-3.col-md-7.pl-2
+          button.btn.btn.btn-primary(type='submit')
+            i.fas.fa-pencil-alt.fa-sm
+            | Update Profile
 
-  form(action='/api/upload' role='form', enctype='multipart/form-data', method='POST')
-    .form-group.row
-      label.col-form-label.font-weight-bold File Input
-      .col-md-6
-        input(type='file', name='myFile')
-    button.btn.btn-primary(type='submit') Submit
+      .pb-2.mt-2.mb-4.border-bottom
+        h3 Publish Job
+      form(action='/employer/job' role='form', method='POST')
+        .form-group.row
+          label.col-md-3.col-form-label.font-weight-bold.text-right(for='title') Title
+          .col-md-7
+            input.form-control(type='text', name='title', id='title')
+        .form-group.row
+          label.col-md-3.col-form-label.font-weight-bold.text-right(for='description') Description
+          .col-md-7
+            input.form-control(type='text', name='description', id='description')
+        .form-group
+          .offset-sm-3.col-md-7.pl-2
+            button.btn.btn.btn-primary(type='submit')
+              i.fas.fa-pencil-alt.fa-sm
+              | Publish Job
   
   .pb-2.mt-2.mb-4.border-bottom
     h3 Change Password

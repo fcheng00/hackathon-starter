@@ -85,6 +85,7 @@ exports.postSignup = (req, res, next) => {
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  req.assert('usertype').notEmpty();
 
   const errors = req.validationErrors();
 
@@ -95,6 +96,7 @@ exports.postSignup = (req, res, next) => {
 
   const user = new User({
     email: req.body.email,
+    usertype: req.body.usertype,
     password: req.body.password
   });
 

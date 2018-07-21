@@ -588,20 +588,26 @@ exports.postFileUpload = (req, res) => {
   req.flash('success', { msg: 'File was uploaded successfully.' });
   // upload file to s3 and update metadata to backend
   const filename = req.file.path;
-  resumeStoreS3.save(filename, (err) => {
+  resumeStoreS3.save(filename, (err, url) => {
     if (err) {
       return console.error(err);
     }
+    console.info(url);
+    // put resume info to backend service
+    axios({
+      method: 'post',
+      url: 'http://localhost:3000/resume',
+      data: {
+        resumeUrl: url,
+        email: req.session.email
+      },
+      responseType: 'application/json'
+    })
+      .then((response) => {
+        console.info(response.data);
+        res.redirect('/api/upload');
+      });
   });
-  axios({
-    method: 'get',
-    url: 'http://localhost:3000/users/1',
-    responseType: 'application/json'
-  })
-    .then((response) => {
-      console.info(response.data);
-      res.redirect('/api/upload');
-    });
 };
 
 /**

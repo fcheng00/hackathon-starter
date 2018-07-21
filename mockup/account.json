@@ -1,0 +1,28 @@
+{
+    "users": [
+        {
+            "id": 1, 
+            "firstname": "Feng", 
+            "lastname": "Cheng", 
+            "email": "ycyoungcheng@gmail.com", 
+            "type": "seeker",
+            "status": "active"
+        },
+        {
+            "id": 1, 
+            "firstname": "Xiangyang", 
+            "lastname": "Pan", 
+            "email": "xiangyangpan@gmail.com", 
+            "type": "employer",
+            "status": "active"
+        },
+        {
+            "id": 1, 
+            "firstname": "Shan", 
+            "lastname": "Shan", 
+            "email": "Shanshan@gmail.com", 
+            "type": "seeker",
+            "status": "inactive"
+        }
+    ]
+}

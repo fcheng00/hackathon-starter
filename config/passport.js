@@ -14,11 +14,14 @@ const { OAuth2Strategy } = require('passport-oauth');
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  let sessionUser = {
+    _id: user.id, name: user.name, email: user.email, roles: user.roles
+  };
+  done(null, sessionUser);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
+passport.deserializeUser((userSession, done) => {
+  User.findById(userSession._id, (err, user) => {
     done(err, user);
   });
 });

@@ -35,6 +35,9 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 
+const employerController = require('./controllers/employer');
+const candidateController = require('./controllers/candidate');
+
 /**
  * API keys and Passport configuration.
  */
@@ -137,6 +140,11 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
+/**
+ * employer and job seeker
+ */
+app.get('/employer', passportConfig.isAuthenticated, employerController.getEmployer);
+app.get('/candidate', passportConfig.isAuthenticated, candidateController.getJob);
 /**
  * API examples routes.
  */

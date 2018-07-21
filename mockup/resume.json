@@ -1,0 +1,29 @@
+{
+  "resumes": [
+    {
+      "email": "ycyoungcheng@gmail.com",
+      "max": 10,
+      "resume": [
+        {
+          "id": 1, 
+          "resume": "https://s3/xxx",
+          "title": "xxx", 
+          "status": "public"
+        },
+        {
+          "id": 1,  
+          "resume": "https://s3/xxx",
+          "title": "xxx", 
+          "status": "open for employer",
+          "content": "resume json format"
+        },
+        {
+          "id": 1,  
+          "resume": "https://s3/xxx",
+          "title": "xxx", 
+          "status": "private"
+        }
+      ]
+    }
+  ]
+}

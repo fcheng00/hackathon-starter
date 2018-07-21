@@ -10,10 +10,12 @@
       ul.nav.navbar-nav.ml-auto
         //li.nav-item(class=(title === 'Home') ? 'active' : undefined)
           a.nav-link(href='/') Home
-        li.nav-item(class=(title === 'Employers') ? 'active' : undefined)
-          a.nav-link(href='/api') Employers
-        li.nav-item(class=(title=== 'Candidate') ? 'active' : undefined)
-          a.nav-link(href='/candidate') Jobs and Careers seekers
+        if !user || user.usertype === 'employer'
+          li.nav-item(class=(title === 'Employers') ? 'active' : undefined)
+            a.nav-link(href='/employer') Employers
+        if !user || user.usertype === 'jobSeeker'
+          li.nav-item(class=(title=== 'Candidate') ? 'active' : undefined)
+            a.nav-link(href='/candidate') Jobs and Careers seekers
         li.nav-item(class=(title === 'Skills') ? 'active' : undefined)
           a.nav-link(href='/contact') Jobsite Gossips and Skills
         li.nav-item(class=(title === 'Plans') ? 'active' : undefined)
@@ -22,7 +24,6 @@
         if !user
           li.nav-item(class=(title === 'Sign in') ? 'active' : undefined)
             a.nav-link(href='/login') Sign in
-          
           li.nav-item(class=(title === 'Create Account') ? 'active' : undefined)
             a.nav-link(href='/signup') Sign up
         else
