@@ -1,7 +1,0 @@
-{
-    "users": [
-        {"id": 1, "firstname": "Feng", "lastname": "Cheng", "email": "ycyoungcheng@gmail.com", "resume": "https://s3/xxx"},
-        {"id": 1, "firstname": "Xiangyang", "lastname": "Pan", "email": "Panxiangyang@gmail.com", "resume": "https://s3/xxx"},
-        {"id": 1, "firstname": "Shan", "lastname": "Shan", "email": "Shanshan@gmail.com", "resume": "https://s3/xxx"}
-    ]
-}
