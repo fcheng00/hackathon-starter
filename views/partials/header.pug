@@ -17,9 +17,10 @@
           li.nav-item(class=(title=== 'Candidate') ? 'active' : undefined)
             a.nav-link(href='/candidate') Jobs and Careers seekers
         li.nav-item(class=(title === 'Skills') ? 'active' : undefined)
-          a.nav-link(href='/contact') Jobsite Gossips and Skills
+          a.nav-link(href='/skill') Jobsite Gossips and Skills
         li.nav-item(class=(title === 'Plans') ? 'active' : undefined)
-          a.nav-link(href='/status') Plans and Services
+          a.nav-link(href='/plan') Plans and Services
+          //a.nav-link(href='/status') Plans and Services
       ul.nav.navbar-nav.ml-auto
         if !user
           li.nav-item(class=(title === 'Sign in') ? 'active' : undefined)
