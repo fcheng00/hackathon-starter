@@ -20,7 +20,17 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'uploads'));
+  },
+  filename: (req, file, cb) => {
+    const dateStr = new Date().toISOString().substr(0, 10);
+    cb(null, `${dateStr}-${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage });
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -145,6 +155,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  * employer and job seeker
  */
 app.get('/employer', passportConfig.isAuthenticated, employerController.getEmployer);
+app.post('/employer/job', passportConfig.isAuthenticated, employerController.postJob);
 app.get('/candidate', passportConfig.isAuthenticated, candidateController.getJob);
 /**
  * API examples routes.

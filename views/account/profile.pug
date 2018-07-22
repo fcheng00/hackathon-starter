@@ -45,15 +45,6 @@ block content
           button.btn.btn.btn-primary(type='submit')
             i.fas.fa-pencil-alt.fa-sm
             | Update Profile
-
-      .pb-2.mt-2.mb-4.border-bottom
-        h3 Upload Resume
-      form(action='/api/upload' role='form', enctype='multipart/form-data', method='POST')
-        .form-group.row
-          label.col-form-label.font-weight-bold File Input
-          .col-md-6
-            input(type='file', name='myFile')
-        button.btn.btn-primary(type='submit') Submit
     else if user.usertype === 'employer'
       .form-group.row
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='email') Email
@@ -81,22 +72,34 @@ block content
             i.fas.fa-pencil-alt.fa-sm
             | Update Profile
 
-      .pb-2.mt-2.mb-4.border-bottom
-        h3 Publish Job
-      form(action='/employer/job' role='form', method='POST')
-        .form-group.row
-          label.col-md-3.col-form-label.font-weight-bold.text-right(for='title') Title
-          .col-md-7
-            input.form-control(type='text', name='title', id='title')
-        .form-group.row
-          label.col-md-3.col-form-label.font-weight-bold.text-right(for='description') Description
-          .col-md-7
-            input.form-control(type='text', name='description', id='description')
-        .form-group
-          .offset-sm-3.col-md-7.pl-2
-            button.btn.btn.btn-primary(type='submit')
-              i.fas.fa-pencil-alt.fa-sm
-              | Publish Job
+  if user.usertype === 'jobSeeker'            
+    .pb-2.mt-2.mb-4.border-bottom
+      h3 Upload Resume
+    form(action='/api/upload' role='form', enctype='multipart/form-data', method='POST')
+      .form-group.row
+        label.col-form-label.font-weight-bold File Input
+        .col-md-6
+          input(type='file', name='myFile')
+      button.btn.btn-primary(type='submit') Submit
+  else if user.usertype === 'employer'
+    .pb-2.mt-2.mb-4.border-bottom
+      h3 Publish Job
+    form(action='/employer/job' role='form', method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      input(type='hidden', name='usertype', value = user.usertype)
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='title') Title
+        .col-md-7
+          input.form-control(type='text', name='title', id='title')
+      .form-group.row
+        label.col-md-3.col-form-label.font-weight-bold.text-right(for='description') Description
+        .col-md-7
+          input.form-control(type='text', name='description', id='description')
+      .form-group
+        .offset-sm-3.col-md-7.pl-2
+          button.btn.btn.btn-primary(type='submit')
+            i.fas.fa-pencil-alt.fa-sm
+            | Publish Job
   
   .pb-2.mt-2.mb-4.border-bottom
     h3 Change Password

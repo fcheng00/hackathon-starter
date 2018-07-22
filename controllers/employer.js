@@ -11,3 +11,13 @@ exports.getEmployer = (req, res) => {
     employer
   });
 };
+
+exports.postJob = (req, res) => {
+  const jobs = {
+    role: 'SDE',
+    description: 'This is the SDE job description'
+  };
+  res.render('employer/job', {
+    jobs
+  });
+};

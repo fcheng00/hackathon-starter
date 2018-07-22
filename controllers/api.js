@@ -593,8 +593,9 @@ exports.postFileUpload = (req, res) => {
       return console.error(err);
     }
     console.info(url);
+    res.redirect('/api/upload');
     // put resume info to backend service
-    axios({
+    /* axios({
       method: 'post',
       url: 'http://localhost:3000/resume',
       data: {
@@ -606,7 +607,7 @@ exports.postFileUpload = (req, res) => {
       .then((response) => {
         console.info(response.data);
         res.redirect('/api/upload');
-      });
+      }); */
   });
 };
 
