@@ -11,7 +11,7 @@ const { Strategy: OpenIDStrategy } = require('passport-openid');
 const { OAuthStrategy } = require('passport-oauth');
 const { OAuth2Strategy } = require('passport-oauth');
 
-const User = require('../models/User');
+const { User } = require('../models/User');
 
 passport.serializeUser((user, done) => {
   let sessionUser = {
@@ -39,6 +39,10 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
       if (err) { return done(err); }
       if (isMatch) {
         return done(null, user);
+      }
+      // make sure the user has been verified
+      if (!user.isVerified) {
+        return done(null, false, { msg: 'user has not been verified' });
       }
       return done(null, false, { msg: 'Invalid email or password.' });
     });

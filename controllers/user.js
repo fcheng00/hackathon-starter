@@ -2,7 +2,7 @@ const { promisify } = require('util');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const passport = require('passport');
-const User = require('../models/User');
+const { User, Token } = require('../models/User');
 
 const randomBytesAsync = promisify(crypto.randomBytes);
 
@@ -108,12 +108,158 @@ exports.postSignup = (req, res, next) => {
     }
     user.save((err) => {
       if (err) { return next(err); }
+
+      // send confirmation email instead of calling req.logIn
+      const token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+      token.save((err) => {
+        if (err) {
+          return next(err);
+        }
+        const transporter = nodemailer.createTransport({
+          service: 'SendGrid',
+          auth: {
+            user: process.env.SENDGRID_USER,
+            pass: process.env.SENDGRID_PASSWORD
+          }
+        });
+        const mailOptions = {
+          to: user.email,
+          from: 'no-reply@careernester.com',
+          subject: 'Account confirmation',
+          text: `Hello,\n\nPlease verify your account by clicking the link: \nhttp://${req.headers.host}/confirmation/${token.token} .\n`
+        };
+        return transporter.sendMail(mailOptions)
+          .then(() => {
+            req.flash('success', { msg: `Success! A verfication email has been sent to ${user.email}` });
+            return res.redirect(`/confirmation?email=${user.email}`);
+          }).catch((reason) => {
+            req.flash('errors', reason);
+          });
+      });
+
+      /* req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/');
+      }); */
+    });
+  });
+};
+
+exports.postConfirmation = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', 'Email cannot be blank').notEmpty();
+  req.assert('token', 'Token cannot be blank').notEmpty();
+  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+
+  const errors = req.validationErrors();
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/signup');
+  }
+
+  // Find a matching token
+  Token.findOne({ token: req.body.token }, (err, token) => {
+    if (!token) {
+      req.flash('errors', { msg: 'We were unable to find a valid token. Your token may have expired.' });
+      return res.redirect('/signup');
+    }
+
+    User.findOne({ _id: token._userId }, (err, user) => {
+      if (!user) {
+        req.flash('errors', { msg: 'We were unable to find a user for this token' });
+        return res.redirect('/signup');
+      }
+      // verify and save the user
+      user.isVerified = true;
       req.logIn(user, (err) => {
         if (err) {
           return next(err);
         }
         res.redirect('/');
       });
+    });
+  });
+};
+
+exports.getConfirmation = (req, res) => {
+  Token.findOne({ token: req.params.token }, (err, token) => {
+    if (!token) {
+      req.flash('errors', { msg: 'We were unable to find a valid token. Your token may have expired.' });
+      return res.redirect('/signup');
+    }
+
+    User.findOne({ _id: token._userId }, (err, user) => {
+      if (!user) {
+        req.flash('errors', { msg: 'We were unable to find a user for this token' });
+        return res.redirect('/signup');
+      }
+
+      // verify and save the user
+      user.isVerified = true;
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/');
+      });
+    });
+  });
+};
+
+/**
+ * It's inevitable that some users will not be able to veriy their account
+ *  before their token expires.
+ */
+exports.postResendToken = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', 'Email cannot be blank').notEmpty();
+  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+
+  const errors = req.validationErrors();
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/signup');
+  }
+
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user) {
+      req.flash('errors', { msg: 'We were unable to find a user for this email' });
+      return res.redirect('/signup');
+    }
+
+    if (user.isVerified) {
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/');
+      });
+    }
+
+    const token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+    token.save((err) => {
+      if (err) {
+        return next(err);
+      }
+      const transporter = nodemailer.createTransport({
+        service: 'SendGrid',
+        auth: {
+          user: process.env.SENDGRID_USER,
+          pass: process.env.SENDGRID_PASSWORD
+        }
+      });
+      const mailOptions = {
+        to: user.email,
+        from: 'no-reply@careernester.com',
+        subject: 'Account verification',
+        text: `Hello,\n\nPlease verify your account by clicking the link: \nhttp://${req.headers.host}/confirmation/${token.token} .\n`
+      };
+      return transporter.sendMail(mailOptions)
+        .then(() => {
+          req.flash('success', { msg: `Success! A verfication email has been sent to ${user.email}` });
+        });
     });
   });
 };

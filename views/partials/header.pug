@@ -2,7 +2,7 @@
   .container
     a.navbar-brand(href='/')
       i.fas.fa-cube
-      | Careernests
+      | Careernester
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
       span.sr-only Toggle navigation
       span.navbar-toggler-icon
@@ -15,7 +15,7 @@
             a.nav-link(href='/employer') Employers
         if !user || user.usertype === 'jobSeeker'
           li.nav-item(class=(title=== 'Candidate') ? 'active' : undefined)
-            a.nav-link(href='/candidate') Jobs and Careers seekers
+            a.nav-link(href='/candidate') Job Seekers
         li.nav-item(class=(title === 'Skills') ? 'active' : undefined)
           a.nav-link(href='/skill') Jobsite Gossips and Skills
         li.nav-item(class=(title === 'Plans') ? 'active' : undefined)

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
+  isVerified: { type: Boolean, default: false },
   usertype: String,
   password: String,
   passwordResetToken: String,
@@ -26,6 +27,18 @@ const userSchema = new mongoose.Schema({
     picture: String
   }
 }, { timestamps: true });
+
+/**
+ * When a user signs up, we are going to create a verifcation token within Mongo
+ */
+const tokenSchema = new mongoose.Schema({
+  _userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+  token: { type: String, required: true },
+  createdAt: {
+    type: Date, required: true, default: Date.now, expires: 43200
+  }
+});
+
 
 /**
  * Password hash middleware.
@@ -67,5 +80,6 @@ userSchema.methods.gravatar = function gravatar(size) {
 };
 
 const User = mongoose.model('User', userSchema);
+const Token = mongoose.model('Token', tokenSchema);
 
-module.exports = User;
+module.exports = { User, Token };

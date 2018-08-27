@@ -51,7 +51,7 @@ const candidateController = require('./controllers/candidate');
 
 const planController = require('./controllers/plan');
 
-const skillController = require('./controllers/skill')
+const skillController = require('./controllers/skill');
 
 /**
  * API keys and Passport configuration.
@@ -66,7 +66,7 @@ const app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI_LOCAL);
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -97,7 +97,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
   store: new MongoStore({
-    url: process.env.MONGODB_URI,
+    url: process.env.MONGODB_URI_LOCAL,
     autoReconnect: true,
   })
 }));
@@ -147,6 +147,9 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+app.post('/confirmation', userController.postConfirmation);
+app.get('/confirmation/:token', userController.getConfirmation);
+app.post('resend', userController.postResendToken);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
@@ -155,11 +158,13 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
+
 /**
  * employer and job seeker
  */
 app.get('/employer', passportConfig.isAuthenticated, employerController.getEmployer);
 app.post('/employer/job', passportConfig.isAuthenticated, employerController.postJob);
+app.post('/employer/profile', passportConfig.isAuthenticated, employerController.postUpdateProfile);
 app.get('/candidate', passportConfig.isAuthenticated, candidateController.getJob);
 
 app.get('/plan', planController.getPlan);
