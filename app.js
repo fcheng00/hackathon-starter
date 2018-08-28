@@ -258,9 +258,9 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
  * Start Express server.
  */
 
-var routemap = require('./routemap.js');
+const routemap = require('./routemap.js');
 
-//both index.js and things.js should be in same directory
+// both index.js and things.js should be in same directory
 app.use('/', routemap);
 
 app.listen(app.get('port'), () => {
