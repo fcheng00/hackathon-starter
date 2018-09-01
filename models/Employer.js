@@ -22,7 +22,7 @@ const managerMsgSchema = mongoose.Schema({
 
 const employerSchema = new mongoose.Schema({
   overview: {
-    name: { type: String, unique: true },
+    company: { type: String, unique: true },
     description: String,
     headerquarters: String,
     type: { type: String, enum: ['private', 'public'] },
@@ -43,7 +43,7 @@ const employerSchema = new mongoose.Schema({
       },
       required: [true, 'User phone number required']
     },
-    founded: { type: Number },
+    foundon: { type: Date },
     industry: { type: String, enum: ['Real Estate', 'Education', 'Media', 'IT', 'Other'] }
   },
   culture: [cultureSchema],

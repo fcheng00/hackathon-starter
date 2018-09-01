@@ -8,22 +8,31 @@ block content
     // /.col-xs-12.col-sm-9
     #sidebar.col-xs-6.col-sm-3.col-sm-pull-9.sidebar-offcanvas
       .list-group
-        a.list-group-item.active(href='#') Overview
-        a.list-group-item(href='#') Company Culture
-        a.list-group-item(href='#') News
-        a.list-group-item(href='#') Post Job
-        a.list-group-item(href='#') CEO
-        a.list-group-item(href='#') Manageer's message
+        a.list-group-item.active(href='#overview') Overview
+        a.list-group-item(href='#culture') Company Culture
+        a.list-group-item(href='#news') News
+        a.list-group-item(href='/employer/job') Post Job
+        a.list-group-item(href='#ceo') CEO
+        a.list-group-item(href='#message') Manager's message
     // /.sidebar-offcanvas
     .col-xs-12.col-sm-9.col-sm-push-3
+
       p.pull-right.visible-xs
         button.btn.btn-primary.btn-xs(type='button' data-toggle='offcanvas' title='Toggle sidebar')
           i.fa.fa-chevron-right
-      .jumbotron
-        h1 Hello, world! #{employer.company}
-        p
-          | This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.
-      .row
+      .card
+        .card-header
+          | Overview
+        .card-body
+          .row
+            .col-xs-6.col-lg-4
+              | Company Name: This is a very long company name
+            .col-xs-6.col-lg-4
+              | Company Size
+            .col-xs-6.col-lg-4
+              | Type
+      .container
+        .row
         .col-xs-6.col-lg-4
           h2 Heading
           p

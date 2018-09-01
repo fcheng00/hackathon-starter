@@ -18,20 +18,20 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-// const multer = require('multer');
+/* const multer = require('multer');
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, path.join(__dirname, 'uploads'));
-//   },
-//   filename: (req, file, cb) => {
-//     const dateStr = new Date().toISOString().substr(0, 10);
-//     cb(null, `${dateStr}-${file.originalname}`);
-//   }
-// });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'uploads'));
+  },
+  filename: (req, file, cb) => {
+    const dateStr = new Date().toISOString().substr(0, 10);
+    cb(null, `${dateStr}-${file.originalname}`);
+  }
+});
 
-// const upload = multer({ storage });
-
+const upload = multer({ storage });
+ */
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
@@ -41,18 +41,18 @@ dotenv.load({ path: 'dev.env' });
 /**
  * Controllers (route handlers).
  */
-// const homeController = require('./controllers/home');
-// const userController = require('./controllers/user');
-// const apiController = require('./controllers/api');
-// const contactController = require('./controllers/contact');
+/* const homeController = require('./controllers/home');
+const userController = require('./controllers/user');
+const apiController = require('./controllers/api');
+const contactController = require('./controllers/contact');
 
-// const employerController = require('./controllers/employer');
-// const candidateController = require('./controllers/candidate');
+const employerController = require('./controllers/employer');
+const candidateController = require('./controllers/candidate');
 
-// const planController = require('./controllers/plan');
+const planController = require('./controllers/plan');
 
-// const skillController = require('./controllers/skill')
-
+const skillController = require('./controllers/skill');
+*/
 /**
  * API keys and Passport configuration.
  */
@@ -245,24 +245,21 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 // app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
 //   res.redirect('/api/pinterest');
 // });
-
-// /**
-//  * Error Handler.
-//  */
-// if (process.env.NODE_ENV === 'development') {
-//   // only use in development
-//   app.use(errorHandler());
-// }
-
-/**
- * Start Express server.
- */
-
 const routemap = require('./routemap.js');
 
 // both index.js and things.js should be in same directory
 app.use('/', routemap);
+/**
+  * Error Handler.
+  */
+if (process.env.NODE_ENV === 'development') {
+  // only use in development
+  app.use(errorHandler());
+}
 
+/**
+ * Start Express server.
+ */
 app.listen(app.get('port'), () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');

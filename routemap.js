@@ -1,5 +1,23 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const passport = require('passport');
+const path = require('path');
+
+const router = express.Router();
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'uploads'));
+  },
+  filename: (req, file, cb) => {
+    const dateStr = new Date().toISOString().substr(0, 10);
+    cb(null, `${dateStr}-${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage });
+
 
 /**
  * Controllers (route handlers).
@@ -14,26 +32,12 @@ const candidateController = require('./controllers/candidate');
 
 const planController = require('./controllers/plan');
 
-const skillController = require('./controllers/skill')
+const skillController = require('./controllers/skill');
 
 /**
  * API keys and Passport configuration.
  */
 const passportConfig = require('./config/passport');
-const passport = require('passport');
-
-const multer = require('multer');
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'uploads'));
-  },
-  filename: (req, file, cb) => {
-    const dateStr = new Date().toISOString().substr(0, 10);
-    cb(null, `${dateStr}-${file.originalname}`);
-  }
-});
-
-const upload = multer({ storage });
 
 /**
  * Primary router routes.
@@ -62,6 +66,7 @@ router.get('/account/unlink/:provider', passportConfig.isAuthenticated, userCont
 router.get('/employer', passportConfig.isAuthenticated, employerController.getEmployer);
 router.post('/employer/job', passportConfig.isAuthenticated, employerController.postJob);
 router.get('/candidate', passportConfig.isAuthenticated, candidateController.getJob);
+router.post('/employer/profile', passportConfig.isAuthenticated, employerController.postUpdateProfile);
 
 router.get('/plan', planController.getPlan);
 router.get('/skill', skillController.getSkill);
@@ -148,5 +153,5 @@ router.get('/auth/pinterest/callback', passport.authorize('pinterest', { failure
 });
 
 
-//export this router to use in our router.js
+// export this router to use in our router.js
 module.exports = router;

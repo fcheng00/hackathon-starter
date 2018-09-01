@@ -57,7 +57,7 @@ block content
       .form-group.row
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='company') Company
         .col-md-7
-          input.form-control(type='text', name='company', id='company', value=user.profile.company)
+          input.form-control(type='text', name='company', id='company', value=user.company)
       .form-group.row
         label.col-md-3.col-form-label.font-weight-bold.text-right(for='address') Address
         .col-md-7
@@ -121,13 +121,15 @@ block content
             p Manager's message
 
     form(role='form' action='/employer/profile' method='post')
+      input(type='hidden', name='_csrf', value=_csrf)
+      input(type='hidden', name='usertype', value = user.usertype)
       #step-1.row.setup-content
         .col-md-12
             h3  Step 1 / 6
             p Overview
             .form-group
               label.control-label Company Name
-              input.form-control(maxlength='100' name='name' type='text' required='required' placeholder='Company Name')
+              input.form-control(maxlength='100' name='company' type='text' required='required' placeholder='Company Name')
             .form-group
               label.control-label Description
               input.form-control(rows='10' cols='30' name='description' type='textarea' placeholder="Company Description")
@@ -136,7 +138,7 @@ block content
               input.form-control(maxlength='100' name='hdq' type='text' required='required', placeholder='Headerquarters')
             .form-group
               label.control-label Type
-              select.form-control(name='status')
+              select.form-control(name='type')
                 option(value='') -------
                 option Private, Independent Company
                 option Public
@@ -157,11 +159,7 @@ block content
               input.form-control(maxlength='100' name='phone' type='tel' required='required' placeholder='Enter Your Telephone')
             .form-group
               label.control-label Founded
-              select.form-control(name='foundedin')
-                option(value='') -------
-                option 2018
-                option 2017
-                option 2016
+              input.form-control(rows='10', cols='30', name='foundedon' type='date')
             .form-group
               label.control-label Industry
               select.form-control(name='industry')
@@ -186,13 +184,13 @@ block content
           p News
           .form-group
             label.control-label Created At
-            input.form-control(rows='10', cols='30', name='createdAt' type='date')
+            input.form-control(rows='10', cols='30', name='news.createdon' type='date')
           .form-group
             label.control-label News Title
-            input.form-control(rows='10', cols='30', name='title' type='text' placeholder="News Title")
+            input.form-control(rows='10', cols='30', name='news.title' type='text' placeholder="News Title")
           .form-group
             label.control-label News Url
-            input.form-control(rows='10', cols='30', name='newsUrl' type='text' placeholder="News Url")
+            input.form-control(rows='10', cols='30', name='news.url' type='text' placeholder="News Url")
           button.btn.btn-primary.prevBtn.btn-lg.pull-left(type='button') Previous
           button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
       #step-4.row.setup-content
@@ -201,13 +199,13 @@ block content
           p CEO
           .form-group
             label.control-label CEO Name
-            input.form-control(maxlength='100' name='name' type='text' required='required' placeholder='Company Name')
+            input.form-control(maxlength='100' name='ceo.name' type='text' required='required' placeholder='Company Name')
           .form-group
             label.control-label Description
-            input.form-control(rows='10' cols='30' name='description' type='textarea' placeholder="Company Description")
+            input.form-control(rows='10' cols='30' name='ceo.description' type='textarea' placeholder="Company Description")
           .form-group
             label.control-label CEO Image Url
-            input.form-control(maxlength='100' name='hdq' type='text' required='required', placeholder='Headerquarters')
+            input.form-control(maxlength='100' name='ceo.url' type='text' required='required', placeholder='Headerquarters')
         button.btn.btn-primary.prevBtn.btn-lg.pull-left(type='button') Previous
         button.btn.btn-primary.nextBtn.btn-lg.pull-right(type='button') Next
       
@@ -215,7 +213,7 @@ block content
         .col-md-12
           h3  Step 5 / 5
           p Manager's Message
-          textarea(name='culture')
+          textarea(name='manageMsg')
             | Please enter manager's message.
         button.btn.btn-primary.prevBtn.btn-lg.pull-left(type='button') Previous
         button.btn.btn-success.btn-lg.pull-right(type='submit') Submit
