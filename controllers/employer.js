@@ -1,3 +1,4 @@
+
 /**
  * GET /employer
  * Display employer info
@@ -10,22 +11,21 @@ exports.getEmployer = (req, res) => {
     User.findOne({ company: req.user.company }, (err, user) => {
       if (!user) {
         req.flash('errors', { msg: 'Cannot find a user by company name' });
-        return req.redirect('/employers/employers');
+        return req.redirect('/signup');
       }
-      Employer.findOne({ company: req.user.company }, (err, employer) => {
+      Employer.findOne({ 'overview.company': req.user.company }, (err, employer) => {
         if (!employer) {
           req.flash('errors', { msg: 'We were unable to find employer by company name' });
-          return res.redirect('/employer/employers');
+          return res.redirect('/signup');
         }
-        return res.render('employer/employer/', {
-          employer,
-          employerId: employer._id
+        res.render('employer/employer', {
+          employer
         });
       });
     });
   }
   // should get all valid employers and list them
-  res.render('employer/employers');
+  // res.render('employer/employers');
 };
 
 exports.postJob = (req, res) => {
@@ -38,29 +38,30 @@ exports.postJob = (req, res) => {
   });
 };
 
-exports.postUpdateProfile = (req, res) => {
+exports.postUpdateProfile = (req, res, next) => {
   const employer = new Employer({
     overview: {
-      company: res.body.company,
-      description: res.body.description,
+      company: req.body.company,
+      description: req.body.description,
       foundedon: req.body.foundedon,
       size: req.body.size,
       type: req.body.type,
       website: req.body.website,
       headerquarters: req.body.hdq,
-      industry: req.body.industry
+      industry: req.body.industry,
+      phone: req.body.phone
 
     },
     culture: [{ culture: req.body.culture }],
     news: [{
-      createdon: req.body.news.createdon,
-      title: req.body.news.title,
-      url: req.body.news.url
+      createdon: req.body.news_createdon,
+      title: req.body.news_title,
+      url: req.body.news_url
     }],
     ceo: {
-      name: req.body.ceo.name,
-      description: req.body.ceo.description,
-      url: req.body.ceo.url
+      name: req.body.ceo_name,
+      description: req.body.ceo_description,
+      url: req.body.ceo_url
     },
     managerMsg: [
       { message: req.body.manageMsg }

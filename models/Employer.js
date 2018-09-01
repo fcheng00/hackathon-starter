@@ -5,7 +5,7 @@ const cultureSchema = new mongoose.Schema({
 });
 
 const newsSchema = new mongoose.Schema({
-  createdAt: Date,
+  createdon: Date,
   title: String,
   newsLink: String
 });

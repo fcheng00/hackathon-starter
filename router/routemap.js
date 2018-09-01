@@ -22,22 +22,22 @@ const upload = multer({ storage });
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
-const contactController = require('./controllers/contact');
+const homeController = require('../controllers/home');
+const userController = require('../controllers/user');
+const apiController = require('../controllers/api');
+const contactController = require('../controllers/contact');
 
-const employerController = require('./controllers/employer');
-const candidateController = require('./controllers/candidate');
+const employerController = require('../controllers/employer');
+const candidateController = require('../controllers/candidate');
 
-const planController = require('./controllers/plan');
+const planController = require('../controllers/plan');
 
-const skillController = require('./controllers/skill');
+const skillController = require('../controllers/skill');
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+const passportConfig = require('../config/passport');
 
 /**
  * Primary router routes.
@@ -66,7 +66,7 @@ router.get('/account/unlink/:provider', passportConfig.isAuthenticated, userCont
 router.get('/employer', passportConfig.isAuthenticated, employerController.getEmployer);
 router.post('/employer/job', passportConfig.isAuthenticated, employerController.postJob);
 router.get('/candidate', passportConfig.isAuthenticated, candidateController.getJob);
-router.post('/employer/profile', passportConfig.isAuthenticated, employerController.postUpdateProfile);
+router.post('/employer', passportConfig.isAuthenticated, employerController.postUpdateProfile);
 
 router.get('/plan', planController.getPlan);
 router.get('/skill', skillController.getSkill);

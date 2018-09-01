@@ -245,7 +245,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 // app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
 //   res.redirect('/api/pinterest');
 // });
-const routemap = require('./routemap.js');
+const routemap = require('./router/routemap.js');
 
 // both index.js and things.js should be in same directory
 app.use('/', routemap);
