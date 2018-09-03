@@ -33,9 +33,14 @@ exports.postJob = (req, res) => {
     role: 'SDE',
     description: 'This is the SDE job description'
   };
-  res.render('employer/job', {
+  res.render('employer/employer', {
     jobs
   });
+};
+
+// display publish job page
+exports.getJob = (req, res) => {
+  res.render('employer/job');
 };
 
 exports.postUpdateProfile = (req, res, next) => {

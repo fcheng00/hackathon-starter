@@ -65,6 +65,7 @@ router.get('/account/unlink/:provider', passportConfig.isAuthenticated, userCont
  */
 router.get('/employer', passportConfig.isAuthenticated, employerController.getEmployer);
 router.post('/employer/job', passportConfig.isAuthenticated, employerController.postJob);
+router.get('/employer/job', passportConfig.isAuthenticated, employerController.getJob);
 router.get('/candidate', passportConfig.isAuthenticated, candidateController.getJob);
 router.post('/employer', passportConfig.isAuthenticated, employerController.postUpdateProfile);
 

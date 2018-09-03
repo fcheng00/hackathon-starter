@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   .pb-2.mt-2.mb-4.border-bottom
-    h3 #{employer.company}
+    h3 #{employer.overview.company}
 
   .row.row-offcanvas.row-offcanvas-right
     // /.col-xs-12.col-sm-9
@@ -11,70 +11,102 @@ block content
         a.list-group-item.active(href='#overview') Overview
         a.list-group-item(href='#culture') Company Culture
         a.list-group-item(href='#news') News
-        a.list-group-item(href='/employer/job') Post Job
         a.list-group-item(href='#ceo') CEO
         a.list-group-item(href='#message') Manager's message
+        a.list-group-item(href='/employer/job') Post Job
     // /.sidebar-offcanvas
     .col-xs-12.col-sm-9.col-sm-push-3
 
       p.pull-right.visible-xs
         button.btn.btn-primary.btn-xs(type='button' data-toggle='offcanvas' title='Toggle sidebar')
           i.fa.fa-chevron-right
-      .card
+      .row
+        .col-8
+          .card
+            .card-header
+              | Overview
+            .card-body
+              .row
+                .col-xs-6.col-lg-4
+                  | Company Name: #{employer.overview.company}
+                .col-xs-6.col-lg-4
+                  | Company Size: #{employer.overview.size}
+                .col-xs-6.col-lg-4
+                  | Type: #{employer.overview.type}
+              .row
+                .col-xs-6.col-lg-4
+                  | Description: #{employer.overview.description}
+                .col-xs-6.col-lg-4
+                  | HeaderQuarter: #{employer.overview.hdq}
+                .col-xs-6.col-lg-4
+                  | Founded: #{employer.overview.createdon}
+              .row
+                .col-xs-6.col-lg-4
+                  | Website: #{employer.overview.website}
+                .col-xs-6.col-lg-4
+                  | Contact: #{employer.overview.phone}
+                .col-xs-6.col-lg-4
+                  | Industry: #{employer.overview.industry}
+        .col-4
+          .card
+            .card-header
+              | CEO
+            .card-body
+              .col
+                | CEO Name: #{employer.ceo.name}
+              .col
+                img(alt='Labor Day 2018' border='0' src="https://image4.owler.com/ceo/ding_benxi_owler_20160227_152055_large.jpg" style='padding-top:0px')
+              .col
+                | Description: #{employer.ceo.description}
+      .card.mt-2
         .card-header
-          | Overview
+          | Company Culture
         .card-body
           .row
             .col-xs-6.col-lg-4
-              | Company Name: This is a very long company name
+              h2 Heading
+              p
+                | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+              p
+                a.btn.btn-default(href='#' role='button') View details &raquo;
+            // /.col-xs-6.col-lg-4
             .col-xs-6.col-lg-4
-              | Company Size
+              h2 Heading
+              p
+                | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+              p
+                a.btn.btn-default(href='#' role='button') View details &raquo;
+            // /.col-xs-6.col-lg-4
             .col-xs-6.col-lg-4
-              | Type
-      .container
-        .row
-        .col-xs-6.col-lg-4
-          h2 Heading
-          p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-          p
-            a.btn.btn-default(href='#' role='button') View details &raquo;
-        // /.col-xs-6.col-lg-4
-        .col-xs-6.col-lg-4
-          h2 Heading
-          p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-          p
-            a.btn.btn-default(href='#' role='button') View details &raquo;
-        // /.col-xs-6.col-lg-4
-        .col-xs-6.col-lg-4
-          h2 Heading
-          p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-          p
-            a.btn.btn-default(href='#' role='button') View details &raquo;
-        // /.col-xs-6.col-lg-4
-        .col-xs-6.col-lg-4
-          h2 Heading
-          p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-          p
-            a.btn.btn-default(href='#' role='button') View details &raquo;
-        // /.col-xs-6.col-lg-4
-        .col-xs-6.col-lg-4
-          h2 Heading
-          p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-          p
-            a.btn.btn-default(href='#' role='button') View details &raquo;
-        // /.col-xs-6.col-lg-4
-        .col-xs-6.col-lg-4
-          h2 Heading
-          p
-            | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-          p
-            a.btn.btn-default(href='#' role='button') View details &raquo;
-        // /.col-xs-6.col-lg-4
-      // /row
-    
+              h2 Heading
+              p
+                | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+              p
+                a.btn.btn-default(href='#' role='button') View details &raquo;
+        // /row
+      .card.mt-2
+        .card-header
+          | News
+        .card-body
+          .row
+            .col-xs-6.col-lg-4
+              h2 #{employer.news[0].title}
+              p
+                | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+              p
+                a.btn.btn-default(href='#' role='button') View details &raquo;
+            // /.col-xs-6.col-lg-4
+            .col-xs-6.col-lg-4
+              h2 Culture
+              p
+                | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+              p
+                a.btn.btn-default(href='#' role='button') View details &raquo;
+            // /.col-xs-6.col-lg-4
+            .col-xs-6.col-lg-4
+              h2 Culture
+              p
+                | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+              p
+                a.btn.btn-default(href='#' role='button') View details &raquo;    
   // /row
